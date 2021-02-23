@@ -5,6 +5,11 @@
 <script>
 import 'leaflet/dist/leaflet.css'
 import 'leaflet'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import 'leaflet.markercluster'
+
+import layer from './layer'
 
 export default {
   name: 'Map',
@@ -60,6 +65,11 @@ export default {
       //   popupAnchor:  [-3, -76]   // 相对于图标锚，弹出框应该从哪个点打开
       // })
 
+      var defaultIcon = L.icon({
+        iconUrl: require('leaflet/dist/images/marker-icon.png'),
+        iconShadow : require('leaflet/dist/images/marker-icon.png')
+      })
+
       var markerCd = L.marker(
         [30.470853, 104.009746],{
           icon: iconCd
@@ -99,6 +109,19 @@ export default {
       //   }).addTo(map)
 
       // map.on('click', this.onMapClick())
+
+      var markers = new L.MarkerClusterGroup();
+
+      // map 数据经纬度聚合
+      for (let i = 0; i < layer.length; i++)
+      {
+        markers.addLayer(L.marker(layer[i],
+          {
+            icon: defaultIcon
+          }))
+      }
+
+      map.addLayer(markers)
 
       this.map = map
     },
