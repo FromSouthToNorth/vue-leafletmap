@@ -33,13 +33,13 @@ export default {
         // 移除右下角 leaflet 标识链接
         attributionControl: false,
       })
-        .setView([30.470853, 104.009746], 13)
+        .setView([30.470853, 104.009746], 10)
 
       L.tileLayer(
         this.url,
         {
           attribution: '<a href="https://www.openstreetmap.org/">OSM</a>',
-          maxZoom: 18,
+          maxZoom: 12,
         }
       ).addTo(map)
 
@@ -54,21 +54,28 @@ export default {
         popupAnchor:  [-3, -76]   // 相对于图标锚，弹出框应该从哪个点打开
       })
 
-      // var iconWz = L.icon({
-      //   iconUrl:      require('@/assets/images/icon/leaf-red.png'),
-      //   shadowUrl:    require('@/assets/images/icon/leaf-shadow.png'),
-      //
-      //   iconSize:     [38, 95],   // size of the icon
-      //   shadowSize:   [50, 64],   // size of the shadow
-      //   iconAnchor:   [22, 94],   // 对应于标记位置的图标点
-      //   shadowAnchor: [4, 62],    // the same for the shadow
-      //   popupAnchor:  [-3, -76]   // 相对于图标锚，弹出框应该从哪个点打开
-      // })
+      var iconWz = L.icon({
+        iconUrl:      require('@/assets/images/icon/leaf-red.png'),
+        shadowUrl:    require('@/assets/images/icon/leaf-shadow.png'),
+
+        iconSize:     [38, 95],   // size of the icon
+        shadowSize:   [50, 64],   // size of the shadow
+        iconAnchor:   [22, 94],   // 对应于标记位置的图标点
+        shadowAnchor: [4, 62],    // the same for the shadow
+        popupAnchor:  [-3, -76]   // 相对于图标锚，弹出框应该从哪个点打开
+      })
 
       var defaultIcon = L.icon({
         iconUrl: require('leaflet/dist/images/marker-icon.png'),
         iconShadow : require('leaflet/dist/images/marker-icon.png')
       })
+
+      var markerWz = L.marker(
+        [27.809299, 120.520408],
+        {
+          icon: iconWz
+        }
+      ).addTo(map).bindPopup('You am in WenZhou')
 
       var markerCd = L.marker(
         [30.470853, 104.009746],{
@@ -76,19 +83,32 @@ export default {
         }
       ).addTo(map).bindPopup('I am in ChenDu')
 
-      // var markerWz = L.marker(
-      //   [27.809299, 120.520408],
-      //   {
-      //     icon: iconWz
-      //   }
-      // ).addTo(map).bindPopup('You am in WenZhou').openPopup()
-      //
+      // 多边形
       // var polygon = L.polygon([
-      //   [30.470853, 104.009746],
-      //   [27.809299, 120.520408]
-      // ], {
-      //   color: '#F8BBD0',
-      // }).addTo(map).bindPopup("I am in ChenDu<br><b>You am in WenZhou</b>")
+      //   layer
+      // ],
+      //   {
+      //   color: '#03A9F4',
+      //   weight: 1
+      // }).addTo(map).bindPopup("hello！<br><b>I is polygon</b>")
+
+      // 折线
+      // var polyline = L.polyline([
+      //   layer
+      // ],
+      //   {
+      //     color: 'cyan',
+      //     weight: 1
+      // }).addTo(map).bindPopup("hello！<br><b>I is polyline</b>")
+
+      var polyline = L.polyline([
+        [30.470853, 104.009746],
+        [27.809299, 120.520408]
+      ],
+        {
+          color: 'green',
+          weight: 1,
+        }).addTo(map).bindPopup("<b>I am in ChenDu</b><br><b>You am in WenZhou</b>")
       //
       // var greenCircle = L.circle(
       //   [30.470853, 104.009746],
@@ -113,12 +133,12 @@ export default {
       var markers = new L.MarkerClusterGroup();
 
       // map 数据经纬度聚合
-      for (let i = 0; i < layer.length; i++)
-      {
+      for (let i = 0; i < layer.length; i++) {
         markers.addLayer(L.marker(layer[i],
           {
             icon: defaultIcon
-          }))
+          })
+        )
       }
 
       map.addLayer(markers)
@@ -134,10 +154,10 @@ export default {
 
 <style lang="scss" scoped>
 .map-collection {
-  margin-right: auto;
-  margin-left: auto;
-  padding: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
-  height: 600px;
+  height: 100%;
 }
 </style>
