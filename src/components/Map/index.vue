@@ -9,6 +9,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster'
 import '@/util/movingMarker'
+import 'leaflet-ant-path'
 
 import layer from './layer'
 
@@ -154,6 +155,15 @@ export default {
         [30.525317, 104.044727],
         [30.524568, 104.061904]
       ]
+
+      var paths2 = [
+        [30.57507,  104.028729],
+        [30.49937,  103.966759],
+        [30.416219, 103.908537],
+        [30.339923, 104.119237],
+        [30.567532, 104.110561],
+      ]
+
       map.fitBounds(paths)
       var movingMarker2 = L.Marker.movingMarker(paths,
         [4000, 4000, 4000, 4000, 2000, 2000, 2000, 4000],
@@ -165,8 +175,8 @@ export default {
       })
 
       //==================================================
-      var movingMarker3 = L.Marker.movingMarker(paths,
-      [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000],
+      var movingMarker3 = L.Marker.movingMarker(paths2,
+      [10000, 10000, 10000, 10000, 10000],
         { icon: movingMarkerIcon3, autostart: true, loop: true }).addTo(map)
 
       movingMarker3.bindPopup('', { closeOnClick: false })
@@ -196,19 +206,19 @@ export default {
         }
       })
 
+      movingMarker3.on('click', (e) => {
+        if (movingMarker3.isRunning()) {
+          movingMarker3.pause()
+        } else {
+          movingMarker3.start()
+        }
+      })
+
       map.on('click', (e) => {
         movingMarker4.moveTo(e.latlng, 2000)
       })
 
       //==================================================
-
-      var paths2 = [
-        [30.57507,  104.028729],
-        [30.49937,  103.966759],
-        [30.339923, 104.119237],
-        [30.567532, 104.110561],
-      ]
-
       var movingMarker5 = L.Marker.movingMarker(
         paths2,
         10000,
@@ -219,6 +229,7 @@ export default {
       movingMarker5.addStation(2, 2000)
       movingMarker5.addStation(3, 2000)
       movingMarker5.addStation(4, 2000)
+      movingMarker5.addStation(5, 2000)
 
       // 多边形
       var polygon = L.polygon([
@@ -306,6 +317,24 @@ export default {
           [this.rand(30.470853), this.rand(104.009746)]
         )
       }
+
+      var path3 = [
+        [30.628852, 104.141286],
+        [30.668538, 104.156754],
+        [30.685489, 104.2055],
+        [30.717075, 104.321972],
+        [30.700988, 104.344803],
+        [30.709696, 104.359566],
+        [30.506845, 105.572182],
+        [30.80219,  106.091286],
+        [30.456689, 106.631749]
+      ]
+
+      let antPolyline = new L.Polyline.AntPath(path3, {
+        color: "#607D8B",
+      })
+
+      antPolyline.addTo(map)
 
       this.map = map
     },
