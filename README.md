@@ -179,7 +179,7 @@ module.exports = [
 
 - [MovingMarker .js](https://github.com/ewoken/Leaflet.MovingMarker)
 
-### 5.2 导入 map 组件钟
+### 5.2 导入 map 组件中
 
 ~~~JavaScript
 import '@/util/movingMarker'
