@@ -10,6 +10,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster'
 import '@/util/movingMarker'
 import 'leaflet-ant-path'
+import HeatmapOverlay from 'heatmap.js/plugins/leaflet-heatmap'
 
 import layer from './layer'
 
@@ -336,6 +337,52 @@ export default {
       })
 
       antPolyline.addTo(map)
+
+      var testData = {
+        max: 8,
+        data: [{
+          lat: 30.628852,
+          lng: 105.141286,
+          count: 1
+        }, {
+          lat: 30.668538,
+          lng: 104.156754,
+          count: 1
+        }, {
+          lat: 30.685489,
+          lng: 107.2055,
+          count: 2
+        }, {
+          lat: 30.717075,
+          lng: 104.321972,
+          count: 2
+        }, {
+          lat: 30.700988,
+          lng: 101.344803,
+          count: 1
+        }]
+      }
+      var cfg = {
+        // 只有当scaleRadius为真时，半径才应该小(或者小半径是有意的)
+        // 如果scaleRadius为false，它将是用像素表示的常数半径
+        'radius': 2,
+        'maxOpacity': .8,
+        // 根据地图缩放缩放半径
+        'scaleRadius': true,
+        //如果设置为false，热图使用全局最大颜色
+        //如果激活:使用当前地图边界内的数据最大值
+        'useLocalExtrema': true,
+        //数据中的字段名表示纬度-默认为“lat”
+        latField: 'lat',
+        //你的数据中哪个字段名称代表经度-默认的“lng”
+        lngField: 'lng',
+        //在你的数据中哪个字段名表示数据值-默认的“值”
+        valueField: 'count'
+      }
+      var heatmapLayer = new HeatmapOverlay(cfg);
+
+      heatmapLayer.addTo(map)
+      heatmapLayer.setData(testData)
 
       this.map = map
     },
